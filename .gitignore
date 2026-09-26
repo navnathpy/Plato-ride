@@ -1,0 +1,16 @@
+**/node_modules/
+**/.expo/
+**/__pycache__/
+**/.env
+**/.env.local
+**/.sites-runtime/
+**/.openai/
+api/data/
+mobile/dist/
+mobile/android/
+mobile/ios/
+work/
+*.jks
+*.p8
+*.p12
+*.mobileprovision
