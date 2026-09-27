@@ -1,0 +1,77 @@
+name: Test and deploy Plato-Ride
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: plato-ride-pages
+  cancel-in-progress: false
+
+jobs:
+  website-and-api:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check browser booking and map logic
+        run: |
+          node --check website/dist/app.mjs
+          node --check website/dist/maps.mjs
+          node --test website/tests/*.test.mjs
+      - name: Check transactional API
+        working-directory: api
+        run: python -m unittest discover -s tests -v
+
+  mobile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: mobile/package-lock.json
+      - run: npm ci
+        working-directory: mobile
+      - run: npm run typecheck && npm test
+        working-directory: mobile
+      - name: Export Android, iOS and web bundles
+        working-directory: mobile
+        env:
+          EXPO_OFFLINE: '1'
+        run: npm run export
+
+  deploy:
+    needs: [website-and-api, mobile]
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Configure optional browser Maps Embed API key
+        env:
+          MAPS_EMBED_KEY: ${{ vars.GOOGLE_MAPS_EMBED_API_KEY }}
+        run: node website/scripts/configure-maps.mjs
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: website/dist
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4

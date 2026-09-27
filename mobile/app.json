@@ -1,0 +1,29 @@
+{
+  "expo": {
+    "name": "Plato-Ride",
+    "slug": "platoride-pune",
+    "scheme": "platoride",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "backgroundColor": "#F6F7F1",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.platoride.pune",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "package": "com.platoride.pune"
+    },
+    "web": {
+      "bundler": "metro",
+      "name": "Plato-Ride mobile demo"
+    },
+    "extra": {
+      "demoMode": true
+    },
+    "icon": "./assets/icon.png"
+  }
+}

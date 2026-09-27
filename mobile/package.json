@@ -1,0 +1,34 @@
+{
+  "name": "platoride-mobile",
+  "version": "0.1.0",
+  "private": true,
+  "main": "index.ts",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "typecheck": "tsc --noEmit",
+    "test": "node --experimental-strip-types --test src/domain.test.ts",
+    "export": "expo export --platform all",
+    "build:android": "npx eas-cli build --platform android --profile preview",
+    "build:ios": "npx eas-cli build --platform ios --profile preview"
+  },
+  "dependencies": {
+    "@react-native-async-storage/async-storage": "2.2.0",
+    "buffer": "^6.0.3",
+    "expo": "~57.0.25",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "react-native": "0.86.3",
+    "react-native-safe-area-context": "~5.7.0",
+    "react-native-svg": "^15.15.4",
+    "react-native-web": "^0.21.0",
+    "react-native-webview": "^13.16.1"
+  },
+  "devDependencies": {
+    "@types/react": "~19.2.0",
+    "tsx": "^4.21.0",
+    "typescript": "~6.0.3"
+  }
+}
