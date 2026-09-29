@@ -1,29 +1,34 @@
 {
   "expo": {
-    "name": "Plato-Ride",
-    "slug": "platoride-pune",
-    "scheme": "platoride",
-    "version": "0.1.0",
+    "name": "Planto-Ride",
+    "slug": "plantoride-pune",
+    "scheme": "plantoride",
+    "version": "1.0.0",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
     "backgroundColor": "#F6F7F1",
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.platoride.pune",
+      "bundleIdentifier": "com.plantoride.pune",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
     },
     "android": {
-      "package": "com.platoride.pune"
+      "package": "com.plantoride.pune"
     },
     "web": {
       "bundler": "metro",
-      "name": "Plato-Ride mobile demo"
+      "name": "Planto-Ride"
     },
-    "extra": {
-      "demoMode": true
-    },
-    "icon": "./assets/icon.png"
+    "icon": "./assets/icon.png",
+    "plugins": [
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Allow Planto-Ride to share your location only when you choose journey sharing or emergency sharing."
+        }
+      ]
+    ]
   }
 }

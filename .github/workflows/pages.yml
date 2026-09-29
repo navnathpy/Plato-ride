@@ -1,4 +1,4 @@
-name: Test and deploy Plato-Ride
+name: Test and deploy Planto-Ride
 on:
   push:
     branches: [main]
@@ -26,10 +26,15 @@ jobs:
         run: |
           node --check website/dist/app.mjs
           node --check website/dist/maps.mjs
+          node --check website/dist/client.mjs
+          node --check website/dist/track.mjs
+          node --check website/dist/pay.mjs
           node --test website/tests/*.test.mjs
       - name: Check transactional API
         working-directory: api
-        run: python -m unittest discover -s tests -v
+        run: |
+          pip install -r requirements.txt
+          python -m pytest tests -q
 
   mobile:
     runs-on: ubuntu-latest
@@ -67,7 +72,10 @@ jobs:
       - name: Configure optional browser Maps Embed API key
         env:
           MAPS_EMBED_KEY: ${{ vars.GOOGLE_MAPS_EMBED_API_KEY }}
-        run: node website/scripts/configure-maps.mjs
+          PLANTO_API_URL: ${{ vars.PLANTO_API_URL }}
+        run: |
+          node website/scripts/configure-maps.mjs
+          node website/scripts/configure-api.mjs
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

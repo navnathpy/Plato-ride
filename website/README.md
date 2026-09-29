@@ -1,44 +1,17 @@
-# Plato-Ride website & browser demo
+# Planto-Ride website and booking client
 
-Responsive vision website and an interactive local demo for shared rides and private cabs. Plain HTML, CSS, and JavaScript; no package installation or build step.
+Static HTML/CSS/JavaScript, hosted through GitHub Pages. Source is in `dist/`. The app uses the HTTP API and never seeds or simulates bookings.
 
-## Run locally
+Set `PLANTO_API_URL` in your shell, run `node website/scripts/configure-api.mjs` from the repository root, then serve `website/dist` on port 4173. GitHub Actions uses the repository variable of the same name. An unset API URL shows unavailable state and disables backend operations without fabricating data.
 
-From this folder, with Python 3 installed:
+- `index.html`: vision, founder story and environmental commitment.
+- `app.html`, `app.mjs`, `client.mjs`: accounts, rides, driver offers, safety and Cashfree checkout.
+- `track.html`: revocable, expiring shared journey links; token in URL fragment.
+- `pay.html`: scoped hosted payment flow for native clients; token in URL fragment.
+- `privacy.html`: current data flows and operator policy prerequisites.
+- `maps.mjs`: Google Maps overview / optional key-backed route preview.
+- `assets/planto-ride-logo.png`: user-supplied logo, unchanged.
 
-```sh
-python -m http.server 4173 --bind 127.0.0.1 --directory dist
-```
+Sign-in tokens stay in memory. No credentials are written to browser storage. Only the public API base URL and optional restricted browser Maps key belong in static configuration. Cashfree secrets stay exclusively on the backend. Share links convey access to trip/vehicle/location information until revoked or expired; recipients should be trusted.
 
-Open http://127.0.0.1:4173/ for the vision website or http://127.0.0.1:4173/app.html for the demo. Use an HTTP server rather than double-clicking app.html, because JavaScript modules need an HTTP origin.
-
-## Demo behavior
-
-- Shared rides show per-seat prices; private cabs use one whole-car price and reserve the whole vehicle.
-- Sample routes include Baner–Hinjewadi, Wakad–Hinjewadi, Kothrud–Shivajinagar, Viman Nagar–Magarpatta, Kalyani Nagar–Viman Nagar, and Hinjewadi–Baner.
-- Initial sample journeys depart tomorrow in the browser’s local time. After a day has passed, Profile → Reset demo data creates fresh samples.
-- Search exact pickup/destination, date, service type, and passenger count.
-- Review/confirm a sample booking, simulate trip stages, cancel before a trip starts, and retain history.
-- Offer and remove local shared rides. You cannot book your own offer.
-- Local browser storage persists the demo on this device only. No authentication, real dispatch, payment, multi-user sync, API connection, or emergency feature is claimed. Google Maps supplies an embedded Pune overview and links to the selected driving route.
-- All environmental figures are pledges. There are no fabricated planted-tree or carbon counters.
-
-## Check
-
-```sh
-node --test tests/core.test.mjs
-node --check dist/app.mjs
-```
-
-The tests cover shared fares, exclusive cab inventory, cancellations, invalid input, trip state transitions, and own-offer restrictions.
-
-## Files
-
-- `dist/index.html`: product vision
-- `dist/app.html`, `dist/app.mjs`, `dist/core.mjs`: browser demo and domain logic
-- `dist/styles.css`: responsive styling, keyboard focus, reduced-motion support
-- `dist/assets/plato-ride-hero.webp`: original generated concept image, not an operating-location photo
-
-Google Fonts supplies DM Sans and Manrope, with local system-font fallbacks. The demo loads Google Maps, but no payment SDK, analytics, or booking service.
-
-GitHub Pages publishes this website through the included Actions workflow. See `../HOSTING.md` for setup and optional restricted Maps Embed API key configuration.
+Run `node --test website/tests/*.test.mjs`. GitHub Actions checks the web client, API, mobile TypeScript and all platform exports before publishing.

@@ -3,7 +3,7 @@ export function directionsUrl(from,to){return 'https://www.google.com/maps/dir/?
 export function mapSource(from,to,key=''){return key?'https://www.google.com/maps/embed/v1/directions?'+new URLSearchParams({key,origin:from+', Pune, India',destination:to+', Pune, India',mode:'driving',units:'metric',region:'in'}):PUNE_EMBED;}
 export function updateMap(query){
  const frame=document.querySelector('#google-map');if(!frame)return;
- const key=window.PLATO_MAPS?.embedApiKey?.trim()||'';const src=mapSource(query.from,query.to,key);
+ const key=window.PLANTO_MAPS?.embedApiKey?.trim()||'';const src=mapSource(query.from,query.to,key);
  if(frame.getAttribute('src')!==src)frame.src=src;
  document.querySelector('#map-directions').href=directionsUrl(query.from,query.to);
  document.querySelector('#map-caption').textContent=key?'Google Maps route preview · No live driver tracking':'Google Maps · Pune overview. Open your selected route for directions.';

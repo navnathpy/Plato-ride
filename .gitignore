@@ -14,3 +14,8 @@ work/
 *.p8
 *.p12
 *.mobileprovision
+
+**/.pytest_cache/
+**/*.sqlite3*
+**/.env.*
+!**/.env.example

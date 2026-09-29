@@ -1,35 +1,15 @@
-# Plato-Ride verification
+# Verification — Planto-Ride upgrade
 
-Verified on 26–27 September 2026 in the supplied Windows environment.
+Verified locally on 27–29 September 2026:
 
-| Check | Result |
-|---|---|
-| Mobile TypeScript (`npm run typecheck`) | Passed |
-| Expo SDK dependency compatibility (`expo install --check`, offline local SDK metadata) | Dependencies up to date |
-| Mobile domain tests (`npm test`) | 4 tests passed |
-| Android export | Hermes bundle generated successfully |
-| iOS export | Hermes bundle generated successfully |
-| React Native web export | Web bundle generated successfully |
-| Browser demo and Google Maps URL tests | 8 tests passed |
-| Browser JavaScript syntax | Passed |
-| Development API integration tests | 24 tests passed |
+- API: 33 tests passed in temporary databases. Coverage includes empty inventory, password/session behavior, driver and vehicle approval, three vehicle types, Ladies eligibility/no fallback, concurrent last-seat reservation, PIN ownership/lockout, role authorization, location freshness, sharing revocation/end-of-trip, last-shared-cancellation closure, payment amount ownership, durable order history, lost-response retry, active checkout reuse, terminal-order rotation, pending-payment blocking, concurrent checkout protection, historical settlement, forged/mismatched webhook rejection and incident ownership.
+- Website: 6 tests passed for fare/capacity rules, missing-backend fail-closed behavior, authorization headers, API failures and Google Maps URLs. JavaScript syntax checked.
+- Mobile: TypeScript and 3 tests passed. Android, iOS and web exports completed successfully with the new logo and location module.
 
-The API suite covers real HTTP and SQLite operations, concurrent shared reservations, exclusive cab inventory, concurrent/idempotent cancellation, per-user booking isolation, server-calculated fares, session hashing/expiry/revocation, input validation, CORS and startup restrictions.
+Cashfree integration tests mock provider responses and sign local test webhooks. No real merchant credentials or live charges were used. API host activation, Cashfree domain/webhook acceptance, signed phone builds, physical-device testing, staffed safety operations and production load/security assessment remain unverified.
 
-The mobile and browser domain tests cover per-seat versus whole-car pricing, capacity reservation/restoration, invalid input, self-booking restrictions, offer removal, ordered trip progress, and terminal trip states.
+Dependency audit reports moderate transitive findings in Expo's Xcode/UUID build tooling. The suggested automated fix downgrades Expo across major versions and was not applied. Review compatible upstream fixes before signing/releasing applications. No high/critical npm finding was reported in this check.
 
-## Interface checks
+Browser validation: account registration reached the API; a separately approved local test rider searched a locally published test offer, reserved it, received a private trip PIN and cancelled it successfully. These isolated fixtures exist only in a scratch database outside the repository. Bike capacity, Ladies selection, empty/unavailable states, tab navigation and SOS panel were checked. No emergency calls or messages were sent.
 
-- Website hero, navigation and responsive layout inspected in the in-app browser.
-- Browser demo: searched two shared seats, reviewed ₹180 from two ₹90 seats, confirmed and cancelled a sample booking; searched four-passenger cab and verified one ₹319 whole-car fare.
-- React Native web export inspected at a 390 × 844 phone viewport.
-- Native UI in its web export: private-cab search, fare review, booking, simulated arrival/start/completion, and impact page checked. Completion appeared as one **demo** trip, without claiming real environmental impact.
-- Revised branding inspected in the website and mobile UI.
-
-## Limits
-
-The mobile screens were exercised through React Native Web, not on physical Android/iOS hardware. Native exports validate bundling, not signing, native installation, device permissions or store acceptance. No signed APK/IPA was produced. No live driver dispatch, native location tracking, identity provider, payment, push notification, emergency/support system, or production service was tested. The API adapter is provided separately and is not connected to the offline screens.
-
-The website demo stores local state independently from the native app and API. Real multi-user production app behavior requires those layers to be integrated and tested together. Accessibility includes labelled controls and keyboard paths, but no formal accessibility audit is claimed.
-
-Google Maps: official Pune share/embed URL integrated into the browser and native WebView, with selected-route direction URLs. No GPS permission is requested. An optional domain-restricted Maps Embed API key enables the website’s route-specific iframe.
+The final service choices are Shared, Car and Bike. Auto was removed from the website, mobile app and new API offers. The supplied investor deck informed the planned Pune corridors, Green Fund care cycle and workplace roadmap. Example financial/impact figures were not published as results, and the deck itself is excluded from the repository.
